@@ -29,10 +29,11 @@
 
       // 함수
       const handleButton = () => {
-        if (!word) {
+        if (!word || newWord[0] === word[word.length - 1]) {
+          // 제시어가 비어있거나 올바른가?
           word = newWord; // 입력한 단어가 제시어가 된다.
           $word.textContent = word; // 화면에 제시어 표시
-          $input.value = "";
+
           const order = Number($order.textContent); // 다음 사람에게 순서를 넘긴다.
           if (order + 1 > number) {
             $order.textContent = 1;
@@ -40,25 +41,12 @@
             $order.textContent = order + 1;
           }
         } else {
-          if (newWord[0] === word[word.length - 1]) {
-            // 입력한 단어가 올바른가?
-            // 올바르다
-            word = newWord;
-            $word.innerText = word;
-            $input.value = "";
-            const order = Number($order.textContent); // 다음 사람에게 순서를 넘긴다.
-            if (order + 1 > number) {
-              $order.textContent = 1;
-            } else {
-              $order.textContent = order + 1;
-            }
-          } else {
-            // 게임종료
-          }
-          // 비어있지 않다.
+          // 틀린경우
+          alert(`올바르지 않은 단어입니다.`);
         }
+        $input.value = "";
+        $input.focus();
       };
-
       const handleInput = (e) => {
         newWord = e.target.value; // 입력하는 단어를 현재단어로
       };

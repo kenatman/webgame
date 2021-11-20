@@ -56,23 +56,57 @@
   </div>
   <script>
     // 변수
-    let numberOne;
-    let numberTwo;
-    let operator;
+    let numberOne = ``;
+    let numberTwo = ``;
+    let operator = ``;
 
     // DOM
     $operator = document.querySelector(`#operator`);
     $result = document.querySelector(`#result`);
-    document.querySelector(`#num-0`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-1`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-2`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-3`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-4`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-5`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-6`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-7`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-8`).addEventListener(`click`, () => {});
-    document.querySelector(`#num-9`).addEventListener(`click`, () => {});
+
+    // 함수 !고차함수의 탄생. 함수를 뱉어내눈구나.
+    const handleNumberClick = (number) => () => {
+      if (operator) {
+        // 비어있지않다
+        numberTwo += number;
+      } else {
+        // 비어있다
+        numberOne += number;
+      }
+      $result.value += number;
+    };
+
+    // 이번트리스너
+    document
+      .querySelector(`#num-0`)
+      .addEventListener(`click`, handleNumberClick(0)); // addEventListenr의 두번째자리는 함수이다.
+    document
+      .querySelector(`#num-1`)
+      .addEventListener(`click`, handleNumberClick(1));
+    document
+      .querySelector(`#num-2`)
+      .addEventListener(`click`, handleNumberClick(2));
+    document
+      .querySelector(`#num-3`)
+      .addEventListener(`click`, handleNumberClick(3));
+    document
+      .querySelector(`#num-4`)
+      .addEventListener(`click`, handleNumberClick(4));
+    document
+      .querySelector(`#num-5`)
+      .addEventListener(`click`, handleNumberClick(5));
+    document
+      .querySelector(`#num-6`)
+      .addEventListener(`click`, handleNumberClick(6));
+    document
+      .querySelector(`#num-7`)
+      .addEventListener(`click`, handleNumberClick(7));
+    document
+      .querySelector(`#num-8`)
+      .addEventListener(`click`, handleNumberClick(8));
+    document
+      .querySelector(`#num-9`)
+      .addEventListener(`click`, handleNumberClick(9));
     document.querySelector(`#plus`).addEventListener(`click`, () => {});
     document.querySelector(`#minus`).addEventListener(`click`, () => {});
     document.querySelector(`#divide`).addEventListener(`click`, () => {});

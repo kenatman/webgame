@@ -66,13 +66,17 @@
 
     // 함수
     const handleNumberClick = (e) => {
-      if (operator) {
-        // 비어있지않다
-        numberTwo += e.target.textContent;
-      } else {
-        // 비어있다
+      // 연산자 비어있다
+      if (!operator) {
         numberOne += e.target.textContent;
+        $result.value += e.target.textContent;
+        return;
       }
+      // 연산자 비어있지않다
+      if (!numberTwo) {
+        $result.value = "";
+      }
+      numberTwo += e.target.textContent;
       $result.value += e.target.textContent;
     };
 

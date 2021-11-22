@@ -81,11 +81,43 @@
     };
 
     const handleOperatorClick = (op) => () => {
+      // 연달아 계산하기
+      if (numberTwo) {
+        handleCalculate();
+      }
+
       if (numberOne) {
         operator = op;
         $operator.value = op;
       } else {
         alert(`숫자를 먼저 입력하세요`);
+      }
+    };
+
+    const handleCalculate = () => {
+      if (numberTwo) {
+        switch (operator) {
+          case `+`:
+            $result.value = Number(numberOne) + Number(numberTwo);
+            break;
+          case `-`:
+            $result.value = numberOne - numberTwo;
+            break;
+          case `*`:
+            $result.value = numberOne * numberTwo;
+            break;
+          case `/`:
+            $result.value = numberOne / numberTwo;
+            break;
+          default:
+            break;
+        }
+        $operator.value = ``;
+        numberOne = $result.value;
+        numberTwo = ``;
+        operator = ``;
+      } else {
+        alert(`숫자를 먼저 입력하세요.`);
       }
     };
 
@@ -132,28 +164,15 @@
     document
       .querySelector(`#multiply`)
       .addEventListener(`click`, handleOperatorClick(`*`));
-    document.querySelector(`#calculate`).addEventListener(`click`, () => {
-      if (numberTwo) {
-        switch (operator) {
-          case `+`:
-            $result.value = Number(numberOne) + Number(numberTwo);
-            break;
-          case `-`:
-            $result.value = numberOne - numberTwo;
-            break;
-          case `*`:
-            $result.value = numberOne * numberTwo;
-            break;
-          case `/`:
-            $result.value = numberOne / numberTwo;
-            break;
-          default:
-            return;
-        }
-      } else {
-        alert(`숫자를 먼저 입력하세요.`);
-      }
+    document
+      .querySelector(`#calculate`)
+      .addEventListener(`click`, handleCalculate);
+    document.querySelector(`#clear`).addEventListener(`click`, () => {
+      numberOne = ``;
+      numberTwo = ``;
+      operator = ``;
+      $operator.value = ``;
+      $result.value = ``;
     });
-    document.querySelector(`#clear`).addEventListener(`click`, () => {});
   </script>
 </body>

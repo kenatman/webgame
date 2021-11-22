@@ -132,7 +132,28 @@
     document
       .querySelector(`#multiply`)
       .addEventListener(`click`, handleOperatorClick(`*`));
-    document.querySelector(`#calculate`).addEventListener(`click`, () => {});
+    document.querySelector(`#calculate`).addEventListener(`click`, () => {
+      if (numberTwo) {
+        switch (operator) {
+          case `+`:
+            $result.value = Number(numberOne) + Number(numberTwo);
+            break;
+          case `-`:
+            $result.value = numberOne - numberTwo;
+            break;
+          case `*`:
+            $result.value = numberOne * numberTwo;
+            break;
+          case `/`:
+            $result.value = numberOne / numberTwo;
+            break;
+          default:
+            return;
+        }
+      } else {
+        alert(`숫자를 먼저 입력하세요.`);
+      }
+    });
     document.querySelector(`#clear`).addEventListener(`click`, () => {});
   </script>
 </body>

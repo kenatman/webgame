@@ -27,6 +27,23 @@
       const IMG_URL = "./rsp.png";
       $computer.style.background = `url(${IMG_URL}) 0 0`;
       $computer.style.backgroundSize = "auto 200px";
+
+      const rspX = { scissors: `0`, rock: `-220px`, paper: `-440px` };
+
+      let computerChoice = `scissors`;
+      const rotateRsp = () => {
+        if (computerChoice === `scissors`) {
+          computerChoice = `rock`;
+        } else if (computerChoice === `rock`) {
+          computerChoice = `paper`;
+        } else if (computerChoice === `paper`) {
+          computerChoice = `scissors`;
+        }
+        $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+        $computer.style.backgroundSize = "auto 200px";
+      };
+
+      setInterval(rotateRsp, 50);
     </script>
   </body>
 </html>

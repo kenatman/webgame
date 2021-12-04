@@ -61,10 +61,13 @@
       $parent.append($ball);
     };
 
-    for (let i = 0; i < winBalls.length; i++) {
-      setTimeout(() => {
-        drawBall(winBalls[i], $result);
-      }, 1000 * (i + 1));
+    for (var i = 0; i < winBalls.length; i++) {
+      (function (j) {
+        setTimeout(() => {
+          console.log(winBalls[j], j);
+          drawBall(winBalls[j], $result);
+        }, 1000 * (i + 1));
+      })(i);
     }
 
     setTimeout(() => {

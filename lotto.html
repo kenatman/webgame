@@ -42,7 +42,33 @@
 
     const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
     const bonus = shuffle[6];
-    console.log(shuffle);
     console.log(winBalls, bonus);
+
+    const $result = document.querySelector(`#result`);
+    const $bonus = document.querySelector(`#bonus`);
+
+    // setTimeout(() => {
+    //   const $ball = document.createElement(`div`);
+    //   $ball.className = `ball`;
+    //   $ball.textContent = winBalls[0];
+    //   $result.append($ball);
+    // }, 1000);
+
+    const drawBall = (number, $parent) => {
+      const $ball = document.createElement(`div`);
+      $ball.className = `ball`;
+      $ball.textContent = number;
+      $parent.append($ball);
+    };
+
+    for (let i = 0; i < winBalls.length; i++) {
+      setTimeout(() => {
+        drawBall(winBalls[i], $result);
+      }, 1000 * (i + 1));
+    }
+
+    setTimeout(() => {
+      drawBall(bonus, $bonus);
+    }, 7000);
   </script>
 </body>

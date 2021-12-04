@@ -17,16 +17,24 @@
       const $form = document.querySelector("#form");
       const $logs = document.querySelector("#logs");
 
-      const numbers = [];
+      /*    const numbers = [];
       for (let i = 0; i < 9; i++) {
         numbers.push(i + 1);
-      }
+      } */
+
+      const numbers = Array(9)
+        .fill()
+        .map((el, idx) => {
+          return idx + 1;
+        });
+
       let answer = [];
       for (let i = 0; i < 4; i++) {
         const index = Math.floor(Math.random() * numbers.length);
         answer.push(numbers[index]);
         numbers.splice(index, 1);
       }
+
       console.log(answer);
 
       let tries = [];
@@ -71,16 +79,27 @@
         let strike = 0;
         let ball = 0;
 
-        for (let i = 0; i < answer.length; i++) {
-          const index = value.indexOf(answer[i]);
+        answer.forEach((el, idx) => {
+          const index = value.indexOf(el);
           if (index > -1) {
-            if (index === i) {
+            if (index === idx) {
               strike++;
-            } else {
-              ball++;
+              return;
             }
+            ball++;
           }
-        }
+        });
+
+        /*       for (let i = 0; i < answer.length; i++) {
+              const index = value.indexOf(answer[i]);
+              if (index > -1) {
+                if (index === i) {
+                  strike++;
+                } else {
+                  ball++;
+                }
+              }
+            } */
         if (strike === 0 && ball === 0) {
           out++;
           $logs.append(`${value}: ${out}아웃`, document.createElement("br"));

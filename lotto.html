@@ -33,7 +33,16 @@
       const spliceArray = candidate.splice(index, 1);
       shuffle.push(spliceArray[0]);
     }
+    /*     const shuffle = [];
+    for (let i = candidate.length; i > 0; i--) {
+      const index = Math.floor(Math.random() * candidate.length);
+      const spliceArray = candidate.splice(index, 1);
+      shuffle.push(spliceArray[0]);
+    } */
 
+    const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
+    const bonus = shuffle[6];
     console.log(shuffle);
+    console.log(winBalls, bonus);
   </script>
 </body>

@@ -54,13 +54,41 @@
     //   $result.append($ball);
     // }, 1000);
 
+    const colorize = (number, $ball) => {
+      if (number < 10) {
+        $ball.style.backgroundColor = `red`;
+        $ball.style.color = `white`;
+        return;
+      }
+      if (number < 20) {
+        $ball.style.backgroundColor = `orange`;
+        return;
+      }
+      if (number < 30) {
+        $ball.style.backgroundColor = `yellow`;
+        return;
+      }
+      if (number < 40) {
+        $ball.style.backgroundColor = `blue`;
+        $ball.style.color = `white`;
+        return;
+      }
+      if (number >= 40) {
+        $ball.style.backgroundColor = `green`;
+        $ball.style.color = `white`;
+        return;
+      }
+    };
+
     const drawBall = (number, $parent) => {
       const $ball = document.createElement(`div`);
       $ball.className = `ball`;
       $ball.textContent = number;
       $parent.append($ball);
+      colorize(number, $ball);
     };
 
+    // var 는 함수스코프를 가짐.
     for (var i = 0; i < winBalls.length; i++) {
       (function (j) {
         setTimeout(() => {

@@ -45,10 +45,33 @@
 
       let intervalId = setInterval(rotateRsp, 50);
       let clickable = true; // flag 변수
-      const handleButtonClick = () => {
+      let score = 0;
+
+      const handleButtonClick = (e) => {
         if (clickable) {
           clearInterval(intervalId); // 클릭하자마자 클리어
           clickable = false;
+
+          let myChoice =
+            e.target.textContent === `가위`
+              ? `scissors`
+              : e.target.textContent === `바위`
+              ? `rock`
+              : `paper`;
+
+          const scoreTable = { scissors: 1, rock: 0, paper: -1 };
+
+          let diff = scoreTable[myChoice] - scoreTable[computerChoice];
+          if ([2, -1].includes(diff)) {
+            score++;
+            $score.textContent = `승리 : 총 ${score}점!!`;
+          } else if ([-2, 1].includes(diff)) {
+            score--;
+            $score.textContent = `패배 : 총 ${score}점!!`;
+          } else {
+            $score.textContent = `비김 : 총 ${score}점!!`;
+          }
+
           setTimeout(() => {
             clickable = true;
             clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌

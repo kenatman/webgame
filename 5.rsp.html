@@ -43,7 +43,19 @@
         $computer.style.backgroundSize = "auto 200px";
       };
 
-      setInterval(rotateRsp, 50);
+      let intervalId = setInterval(rotateRsp, 50);
+
+      const handleButtonClick = () => {
+        clearInterval(intervalId); // 클릭하자마자 클리어
+        setTimeout(() => {
+          clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌
+          intervalId = setInterval(rotateRsp, 50);
+        }, 1000);
+      };
+
+      $scissors.addEventListener("click", handleButtonClick);
+      $rock.addEventListener("click", handleButtonClick);
+      $paper.addEventListener("click", handleButtonClick);
     </script>
   </body>
 </html>

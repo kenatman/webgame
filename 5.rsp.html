@@ -44,13 +44,17 @@
       };
 
       let intervalId = setInterval(rotateRsp, 50);
-
+      let clickable = true; // flag 변수
       const handleButtonClick = () => {
-        clearInterval(intervalId); // 클릭하자마자 클리어
-        setTimeout(() => {
-          clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌
-          intervalId = setInterval(rotateRsp, 50);
-        }, 1000);
+        if (clickable) {
+          clearInterval(intervalId); // 클릭하자마자 클리어
+          clickable = false;
+          setTimeout(() => {
+            clickable = true;
+            clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌
+            intervalId = setInterval(rotateRsp, 50);
+          }, 1000);
+        }
       };
 
       $scissors.addEventListener("click", handleButtonClick);

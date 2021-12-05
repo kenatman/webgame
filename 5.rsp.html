@@ -45,7 +45,8 @@
 
       let intervalId = setInterval(rotateRsp, 50);
       let clickable = true; // flag 변수
-      let score = 0;
+      let myScore = 0;
+      let comScore = 0;
 
       const handleButtonClick = (e) => {
         if (clickable) {
@@ -62,21 +63,30 @@
           const scoreTable = { scissors: 1, rock: 0, paper: -1 };
 
           let diff = scoreTable[myChoice] - scoreTable[computerChoice];
+          let message;
           if ([2, -1].includes(diff)) {
-            score++;
-            $score.textContent = `승리 : 총 ${score}점!!`;
+            myScore++;
+            message = `승리`;
           } else if ([-2, 1].includes(diff)) {
-            score--;
-            $score.textContent = `패배 : 총 ${score}점!!`;
+            comScore++;
+            message = `패배`;
           } else {
-            $score.textContent = `비김 : 총 ${score}점!!`;
+            message = `무승부`;
           }
-
-          setTimeout(() => {
-            clickable = true;
-            clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌
-            intervalId = setInterval(rotateRsp, 50);
-          }, 1000);
+          if (myScore === 3) {
+            $score.textContent = `나의 승리, 나 ${myScore}승 : 컴퓨터 ${comScore}승`;
+            return;
+          } else if (comScore === 3) {
+            $score.textContent = `컴퓨터의 승리,  컴퓨터 ${comScore}승 : 나 ${myScore}승`;
+            return;
+          } else {
+            $score.textContent = `${message}, 나 ${myScore}승: 컴퓨터 ${comScore}승`;
+            setTimeout(() => {
+              clickable = true;
+              clearInterval(intervalId); // 비동기 시작할떄 클리어. 연달아 클릭했을 떄 각각 취소해줌
+              intervalId = setInterval(rotateRsp, 50);
+            }, 1000);
+          }
         }
       };
 

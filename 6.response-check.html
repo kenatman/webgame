@@ -30,6 +30,10 @@
       $screen = document.querySelector(`#screen`);
       $result = document.querySelector(`#result`);
 
+      let startTime;
+      let finishTime;
+      let response = [];
+
       // 이벤트리스너
       $screen.addEventListener(`click`, () => {
         if ($screen.classList.contains(`waiting`)) {
@@ -41,11 +45,22 @@
             $screen.classList.remove(`ready`);
             $screen.classList.add(`now`);
             $screen.textContent = `클릭하세요 GOGO!!`;
+            startTime = new Date();
           }, 1000 * Math.random() + 2000);
         } else if ($screen.classList.contains(`ready`)) {
           // 준비화면
         } else if ($screen.classList.contains(`now`)) {
           // 클릭화면
+          finishTime = new Date();
+          let result = finishTime - startTime;
+          response.push(result);
+          let average = response.reduce((a, c) => a + c) / response.length;
+          $result.textContent = `반응시간 : ${result}ms, 평균시간 : ${average} ms`;
+          startTime = null;
+          finishTime = null;
+          $screen.classList.remove(`now`);
+          $screen.classList.add(`waiting`);
+          $screen.textContent = `클릭해서 시작하세요`;
         }
       });
     </script>

@@ -29,6 +29,25 @@
     <script>
       $screen = document.querySelector(`#screen`);
       $result = document.querySelector(`#result`);
+
+      // 이벤트리스너
+      $screen.addEventListener(`click`, () => {
+        if ($screen.classList.contains(`waiting`)) {
+          // 대기화면
+          $screen.classList.remove(`waiting`);
+          $screen.classList.add(`ready`);
+          $screen.textContent = `초록색으로 바뀌면 클릭하세요`;
+          setTimeout(() => {
+            $screen.classList.remove(`ready`);
+            $screen.classList.add(`now`);
+            $screen.textContent = `클릭하세요 GOGO!!`;
+          }, 1000 * Math.random() + 2000);
+        } else if ($screen.classList.contains(`ready`)) {
+          // 준비화면
+        } else if ($screen.classList.contains(`now`)) {
+          // 클릭화면
+        }
+      });
     </script>
   </body>
 </html>

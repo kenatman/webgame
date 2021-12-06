@@ -33,6 +33,7 @@
       let startTime;
       let finishTime;
       let response = [];
+      let timeoutId;
 
       // 이벤트리스너
       $screen.addEventListener(`click`, () => {
@@ -41,7 +42,7 @@
           $screen.classList.remove(`waiting`);
           $screen.classList.add(`ready`);
           $screen.textContent = `초록색으로 바뀌면 클릭하세요`;
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             $screen.classList.remove(`ready`);
             $screen.classList.add(`now`);
             $screen.textContent = `클릭하세요 GOGO!!`;
@@ -49,6 +50,10 @@
           }, 1000 * Math.random() + 2000);
         } else if ($screen.classList.contains(`ready`)) {
           // 준비화면
+          $screen.textContent = `너무 성급하셨네요;;`;
+          $screen.classList.remove(`ready`);
+          $screen.classList.add(`waiting`);
+          clearTimeout(timeoutId);
         } else if ($screen.classList.contains(`now`)) {
           // 클릭화면
           finishTime = new Date();

@@ -59,8 +59,19 @@
           finishTime = new Date();
           let result = finishTime - startTime;
           response.push(result);
+
           let average = response.reduce((a, c) => a + c) / response.length;
+
           $result.textContent = `반응시간 : ${result}ms, 평균시간 : ${average} ms`;
+
+          let topFive = response.sort((a, b) => a - b).slice(0, 5);
+          topFive.forEach((v, i) => {
+            $result.append(
+              document.createElement(`br`),
+              `${i + 1}번째 빠른 기록 : ${v}ms`
+            );
+          });
+
           startTime = null;
           finishTime = null;
           $screen.classList.remove(`now`);

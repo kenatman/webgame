@@ -35,6 +35,37 @@
       <td></td>
     </tr>
   </table> -->
-    <script></script>
+    <script>
+      const { body } = document;
+      const $table = document.createElement(`table`);
+      const $result = document.createElement(`div`);
+      const rows = [];
+      let turn = `O`;
+
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement(`tr`);
+        const cells = [];
+        for (let j = 1; j <= 3; j++) {
+          const $td = document.createElement(`td`);
+          $td.addEventListener("click", (e) => {
+            // 또 클릭했나?
+            if (e.target.textContent) return;
+            e.target.textContent = turn;
+            // TODO : 승부확인
+            if (turn === `O`) {
+              turn = `X`;
+            } else if (turn === `X`) {
+              turn = `O`;
+            }
+          });
+          cells.push($td);
+          $tr.appendChild($td);
+        }
+        rows.push(cells);
+        $table.appendChild($tr);
+      }
+      body.appendChild($table);
+      body.appendChild($result);
+    </script>
   </body>
 </html>

@@ -42,6 +42,27 @@
       const rows = [];
       let turn = `O`;
 
+      // [
+      //   [td, td, td],
+      //   [td, td, td],
+      //   [td, td, td],
+      // ]
+
+      // 클릭한 td 위치 확인
+      let rowIndex;
+      let cellIndex;
+      const checkWinner = (target) => {
+        rows.forEach((row, ri) => {
+          row.forEach((cell, ci) => {
+            if (target === cell) {
+              rowIndex = ri;
+              cellIndex = ci;
+            }
+          });
+        });
+        console.log(rowIndex, cellIndex);
+      };
+
       const callback = (e) => {
         if (e.target.textContent !== ``) {
           // 칸이 이미 채워져있는가?
@@ -50,6 +71,7 @@
         }
         e.target.textContent = turn;
         // TODO : 승부확인
+        checkWinner(e.target);
         turn = turn === `O` ? `X` : `O`;
       };
 

@@ -42,28 +42,30 @@
       const rows = [];
       let turn = `O`;
 
+      const callback = (e) => {
+        if (e.target.textContent !== ``) {
+          // 칸이 이미 채워져있는가?
+          console.log(`빈칸이 아닙니다.`);
+          return;
+        }
+        e.target.textContent = turn;
+        // TODO : 승부확인
+        turn = turn === `O` ? `X` : `O`;
+      };
+
       for (let i = 0; i < 3; i++) {
         const $tr = document.createElement(`tr`);
         const cells = [];
         for (let j = 1; j <= 3; j++) {
           const $td = document.createElement(`td`);
-          $td.addEventListener("click", (e) => {
-            // 또 클릭했나?
-            if (e.target.textContent) return;
-            e.target.textContent = turn;
-            // TODO : 승부확인
-            if (turn === `O`) {
-              turn = `X`;
-            } else if (turn === `X`) {
-              turn = `O`;
-            }
-          });
+
           cells.push($td);
           $tr.appendChild($td);
         }
         rows.push(cells);
         $table.appendChild($tr);
       }
+      $table.addEventListener("click", callback);
       body.appendChild($table);
       body.appendChild($result);
     </script>

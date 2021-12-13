@@ -49,17 +49,11 @@
       // ]
 
       // 클릭한 td 위치 확인
-      let rowIndex;
-      let cellIndex;
+
       const checkWinner = (target) => {
-        rows.forEach((row, ri) => {
-          row.forEach((cell, ci) => {
-            if (target === cell) {
-              rowIndex = ri;
-              cellIndex = ci;
-            }
-          });
-        });
+        const rowIndex = target.parentNode.rowIndex;
+        const cellIndex = target.cellIndex;
+
         // 승부확인
         let hasWinner = false;
         // 가로검사
@@ -107,14 +101,7 @@
           return;
         }
         // 무승부확인 : 승자는 없는 상태에서... 다 차있나?
-        let draw = true;
-        rows.forEach((row, i) => {
-          row.forEach((cell, ci) => {
-            if (!cell.textContent) {
-              draw = false;
-            }
-          });
-        });
+        const draw = rows.flat().every((cell) => cell.textContent);
         if (draw) {
           $result.textContent = `무승부!!@@@`;
           return;

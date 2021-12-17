@@ -58,7 +58,7 @@
         hp: 100,
         xp: 0,
         att: 10,
-        attack: function (monster) {
+        attack: (monster) => {
           monster.hp -= this.att;
           this.hp -= monster.att;
         },
@@ -111,9 +111,9 @@
         }
       });
 
-      $battleMenu.addEventListener("submit", (e) => {
-        console.log(e);
+      $battleMenu.addEventListener("submit", function (e) {
         e.preventDefault();
+
         const input = e.target[`battle-input`].value;
         if (input === `1`) {
           // 공격

@@ -189,19 +189,29 @@
         }
       }
 
-      class Hero {
-        constructor(game, name) {
+      class Unit {
+        constructor(game, name, hp, att, xp) {
           this.game = game;
           this.name = name;
-          this.lev = 1;
-          this.hp = 100;
-          this.maxHp = 100;
-          this.att = 10;
-          this.xp = 0;
+          this.hp = hp;
+          this.maxHp = hp;
+          this.att = att;
+          this.xp = xp;
         }
+
         attack(target) {
           target.hp -= this.att;
-          this.hp -= target.att;
+        }
+      }
+
+      class Hero extends Unit {
+        constructor(game, name) {
+          super(game, name, 100, 10, 0); // 부모클래스 생성자 호출
+          this.lev = 1;
+        }
+        attack(target) {
+          super.attack(target); // 부모클래스의 attack
+          // 부모 클래스 attack 외 동작. 확장.
         }
         heal(monster) {
           this.hp += 20;
@@ -220,20 +230,16 @@
         }
       }
 
-      class Monster {
+      class Monster extends Unit {
         constructor(game, name, hp, att, xp) {
-          this.game = game;
-          this.name = name;
-          this.hp = hp;
-          this.maxHp = hp;
-          this.att = att;
-          this.xp = xp;
+          super(game, name, hp, att, xp);
         }
-
-        attack(target) {
+        // 생략가능
+        /*    attack(target) {
           target.hp -= this.att;
-        }
+        } */
       }
+
       let game = null;
       $startScreen.addEventListener("submit", (e) => {
         e.preventDefault();

@@ -108,9 +108,14 @@
               `몬스터와 마주쳤다. ${this.monster.name}인 것 같다.`
             );
           } else if (input === `2`) {
-            // 회복
+            // 휴식
+            this.hero.hp = this.hero.maxHp;
+            this.updateHeroStat();
+            this.showMessage(`체력이 모두 회복되었다!!`);
           } else if (input === `3`) {
             // 게임종료
+            this.quit();
+            this.showMessage(``);
           }
         };
 
@@ -141,8 +146,20 @@
             this.updateMonsterStat();
           } else if (input === `2`) {
             // 회복
+            const { hero, monster } = this;
+
+            hero.hp += Math.min(20, hero.maxHp - hero.hp);
+            monster.attack(hero);
+            this.updateHeroStat();
+            this.showMessage(
+              `체력 20을 회복하고 ${monster.att}의 데미지를 받았다`
+            );
           } else if (input === `3`) {
             // 도망
+            this.monster = null;
+            this.updateMonsterStat();
+            this.changeScreen(`game`);
+            this.showMessage(`삼심육계 줄행랑!!`);
           }
         };
 
@@ -162,8 +179,10 @@
           if (hero === null) {
             $heroName.textContent = ``;
             $heroLevel.textContent = ``;
+            $heroHp.textContent = ``;
             $heroXp.textContent = ``;
             $heroAtt.textContent = ``;
+            $message.textContent = ``;
             return;
           }
           $heroName.textContent = hero.name;

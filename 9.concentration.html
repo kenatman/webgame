@@ -81,10 +81,55 @@
         return card;
       }
 
+      let clicked = [];
+      let completed = [];
+
+      function clickCard() {
+        this.classList.toggle(`flipped`);
+        clicked.push(this);
+        if (clicked.length !== 2) {
+          return;
+        }
+        const first =
+          clicked[0].querySelector(`.card-back`).style.backgroundColor;
+        const second =
+          clicked[1].querySelector(`.card-back`).style.backgroundColor;
+        if (first === second) {
+          // 두개의 카드가 같으면
+          completed.push(clicked[0]);
+          completed.push(clicked[1]);
+          clicked = [];
+
+          if (completed.length !== total) {
+            return;
+          }
+          setTimeout(() => {
+            alert(`축하합니다.`);
+            resetGame();
+          }, 1000);
+          return;
+        }
+        // 두개의 카드가 다르면
+        setTimeout(() => {
+          clicked[0].classList.remove(`flipped`);
+          clicked[1].classList.remove(`flipped`);
+          clicked = [];
+        }, 500);
+      }
+
+      function resetGame() {
+        $wrapper.innerHTML = "";
+        colorCopy = colors.concat(colors);
+        shuffled = [];
+        completed = [];
+        startGame();
+      }
+
       function startGame() {
         shuffle();
         for (let i = 0; i < total; i++) {
           const card = createCard(i);
+          card.addEventListener("click", clickCard);
           $wrapper.appendChild(card);
         }
         // 카드 잠깐 보여주기

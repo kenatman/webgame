@@ -83,8 +83,12 @@
 
       let clicked = [];
       let completed = [];
+      let clickable = false;
 
       function clickCard() {
+        if (!clickable || completed.includes(this) || clicked[0] === this) {
+          return;
+        }
         this.classList.toggle(`flipped`);
         clicked.push(this);
         if (clicked.length !== 2) {
@@ -118,6 +122,7 @@
       }
 
       function resetGame() {
+        clickable = false;
         $wrapper.innerHTML = "";
         colorCopy = colors.concat(colors);
         shuffled = [];
@@ -142,6 +147,7 @@
         document.querySelectorAll(`.card`).forEach((card, i) => {
           setTimeout(() => {
             card.classList.remove(`flipped`);
+            clickable = true;
           }, 5000);
         });
       }

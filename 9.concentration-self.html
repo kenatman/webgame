@@ -52,7 +52,9 @@
     <div id="wrapper"></div>
     <script>
       const $wrapper = document.querySelector("#wrapper");
-      let total = Number(prompt(`전체 카드 갯수를 입력해주세요 2~20 짝수만`));
+      const total = parseInt(
+        prompt(`카드 갯수를 짝수로 입력하세요(최대 20).)`)
+      );
       const colors = [
         `red`,
         `orange`,
@@ -60,13 +62,13 @@
         `green`,
         `white`,
         `pink`,
-        `salmon`,
-        `tomato`,
+        `cyan`,
+        `violet`,
         `gray`,
-        `blue`,
+        `black`,
       ];
-      let colorPicked = colors.slice(0, Number(total / 2));
-      let colorCopy = colorPicked.concat(colorPicked);
+      let colorSlice = colors.slice(0, total / 2);
+      let colorCopy = colorSlice.concat(colorSlice);
       let shuffled = [];
 
       function shuffle() {
@@ -96,9 +98,7 @@
       let clicked = [];
       let completed = [];
       let clickable = false;
-
       let startTime;
-      let endTime;
 
       function clickCard() {
         if (!clickable || completed.includes(this) || clicked[0] === this) {
@@ -122,9 +122,9 @@
           if (completed.length !== total) {
             return;
           }
-          endTime = new Date();
+          const endTime = new Date();
           setTimeout(() => {
-            alert(`축하합니다. ${(endTime - startTime) / 1000}초 걸림`);
+            alert(`축하합니다. ${(endTime - startTime) / 1000}초 걸렸습니다`);
             resetGame();
           }, 1000);
           return;
@@ -142,20 +142,13 @@
       function resetGame() {
         clickable = false;
         $wrapper.innerHTML = "";
-        total = Number(prompt(`전체 카드 갯수를 입력해주세요 2~20 짝수만`));
-        colorPicked = colors.slice(0, Number(total) / 2);
-        colorCopy = colorPicked.concat(colorPicked);
+        colorCopy = colors.concat(colors);
         shuffled = [];
         completed = [];
         startGame();
       }
 
       function startGame() {
-        if (total % 2 !== 0) {
-          alert(`짝수를 입력하세요`);
-          resetGame();
-          return;
-        }
         shuffle();
         for (let i = 0; i < total; i++) {
           const card = createCard(i);
@@ -177,7 +170,6 @@
           }, 5000);
         });
       }
-
       startGame();
     </script>
   </body>

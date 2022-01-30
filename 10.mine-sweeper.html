@@ -147,13 +147,16 @@
         if (cellData === CODE.NORMAL) {
           // 닫힌칸이면
           const count = countMine(rowIndex, cellIndex);
-          target.textContent = count;
+          target.textContent = count || ""; // ??(nullish coalescing(널리시 코얼리싱))로 하면 0표시(0은 null, undefined와 다르다.)
           target.className = `opened`;
           data[rowIndex][cellIndex] = count;
         } else if (cellData === CODE.MINE) {
           // 지뢰면
           target.textContent = `펑!`;
           target.className = `opened`;
+          // 이벤트버블링으로 편하게 제거.
+          $tbody.removeEventListener("contextmenu", onRightClick);
+          $tbody.removeEventListener("click", onLeftClick);
         }
         // 나머지는 무시
       }

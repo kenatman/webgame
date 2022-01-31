@@ -43,10 +43,11 @@
       const $tbody = document.querySelector(`#table tbody`);
       const $result = document.querySelector(`#result`);
       const $timer = document.querySelector(`#timer`);
+      const $form = document.querySelector(`#form`);
 
-      const row = 10; // 줄
-      const cell = 10; // 칸
-      const mine = 10;
+      let row; // 줄
+      let cell; // 칸
+      let mine;
       const CODE = {
         NORMAL: -1, // 닫힌칸(지뢰X)
         QUESTION: -2, // 물음표칸(지뢰X)
@@ -59,11 +60,24 @@
 
       let data;
       let openCount = 0;
-      let startTime = new Date();
-      const interval = setInterval(() => {
-        const time = Math.floor((new Date() - startTime) / 1000);
-        $timer.textContent = `${time}초`;
-      }, 1000);
+      let startTime;
+      let interval;
+
+      function onSubmit(e) {
+        e.preventDefault();
+        row = parseInt(e.target.row.value, 10);
+        cell = parseInt(e.target.cell.value, 10);
+        mine = parseInt(e.target.mine.value, 10);
+        $tbody.innerHTML = ``;
+        drawTable();
+        startTime = new Date();
+        interval = setInterval(() => {
+          const time = Math.floor((new Date() - startTime) / 1000);
+          $timer.textContent = `${time}초`;
+        }, 1000);
+      }
+
+      $form.addEventListener("submit", onSubmit);
 
       function plantMine() {
         const candidate = Array(row * cell)
@@ -116,7 +130,7 @@
           // 깃발지뢰면
           data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로
           target.className = ``;
-          target.textContent = `X`;
+          target.textContent = ``;
         } else if (cellData === CODE.NORMAL) {
           // 닫힌칸(지뢰X)이면
           data[rowIndex][cellIndex] = CODE.QUESTION; // 물음표로
@@ -220,7 +234,7 @@
           row.forEach((cell) => {
             const $td = document.createElement("td");
             if (cell === CODE.MINE) {
-              $td.textContent = `X`;
+              /* $td.textContent = `X`; */
             }
             $tr.append($td);
           });
@@ -229,7 +243,6 @@
           $tbody.addEventListener("click", onLeftClick);
         });
       }
-      drawTable();
     </script>
   </body>
 </html>

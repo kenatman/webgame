@@ -139,6 +139,34 @@
         return i;
       }
 
+      function open(rowIndex, cellIndex) {
+        const target = $tbody.children[rowIndex]?.children[cellIndex];
+        if (!target) {
+          return;
+        }
+        const count = countMine(rowIndex, cellIndex);
+        target.textContent = count || ""; // ??(nullish coalescing(널리시 코얼리싱))로 하면 0표시(0은 null, undefined와 다르다.)
+        target.className = `opened`;
+        data[rowIndex][cellIndex] = count;
+        return count;
+      }
+
+      function openAround(rI, cI) {
+        setTimeout(() => {
+          const count = open(rI, cI);
+          if (count === 0) {
+            openAround(rI - 1, cI - 1);
+            openAround(rI - 1, cI);
+            openAround(rI - 1, cI + 1);
+            openAround(rI, cI - 1);
+            openAround(rI, cI + 1);
+            openAround(rI + 1, cI - 1);
+            openAround(rI + 1, cI);
+            openAround(rI + 1, cI + 1);
+          }
+        }, 0);
+      }
+
       function onLeftClick(e) {
         const target = e.target;
         const rowIndex = target.parentNode.rowIndex;
@@ -146,10 +174,7 @@
         const cellData = data[rowIndex][cellIndex];
         if (cellData === CODE.NORMAL) {
           // 닫힌칸이면
-          const count = countMine(rowIndex, cellIndex);
-          target.textContent = count || ""; // ??(nullish coalescing(널리시 코얼리싱))로 하면 0표시(0은 null, undefined와 다르다.)
-          target.className = `opened`;
-          data[rowIndex][cellIndex] = count;
+          openAround(rowIndex, cellIndex);
         } else if (cellData === CODE.MINE) {
           // 지뢰면
           target.textContent = `펑!`;

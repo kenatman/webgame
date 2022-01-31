@@ -42,6 +42,8 @@
     <script>
       const $tbody = document.querySelector(`#table tbody`);
       const $result = document.querySelector(`#result`);
+      const $timer = document.querySelector(`#timer`);
+
       const row = 10; // 줄
       const cell = 10; // 칸
       const mine = 10;
@@ -54,7 +56,10 @@
         MINE: -6, // 닫힌칸(지뢰O)
         OPENED: 0, // 0이상이면 열린칸
       };
+
       let data;
+      let openCount = 0;
+
       function plantMine() {
         const candidate = Array(row * cell)
           .fill()
@@ -140,6 +145,8 @@
       }
 
       function open(rowIndex, cellIndex) {
+        // 재귀함수 최적화
+        if (data[rowIndex]?.[cellIndex] >= CODE.OPENED) return;
         const target = $tbody.children[rowIndex]?.children[cellIndex];
         if (!target) {
           return;
@@ -147,6 +154,8 @@
         const count = countMine(rowIndex, cellIndex);
         target.textContent = count || ""; // ??(nullish coalescing(널리시 코얼리싱))로 하면 0표시(0은 null, undefined와 다르다.)
         target.className = `opened`;
+        openCount++;
+        console.log(openCount);
         data[rowIndex][cellIndex] = count;
         return count;
       }

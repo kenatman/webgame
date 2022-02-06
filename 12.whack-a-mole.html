@@ -58,7 +58,8 @@
   </head>
   <body>
     <div>
-      <span id="timer">8</span>초&nbsp; <span id="score">0</span>점
+      <span id="timer">0</span>초&nbsp; <span id="score">0</span>점&nbsp;
+      <span id="life">3</span>목숨
       <button id="start">시작</button>
     </div>
     <div id="game">
@@ -129,15 +130,32 @@
       const $game = document.querySelector("#game");
       const $start = document.querySelector("#start");
       const $$cells = document.querySelectorAll(".cell");
+      const $life = document.querySelector("#life");
 
       const holes = [0, 0, 0, 0, 0, 0, 0, 0, 0];
       let started = false;
       let score = 0;
+      let time = 10;
+      let life = 3;
+      let timerId;
+      let tickId;
+
       $start.addEventListener("click", () => {
         if (started) return;
         started = true;
         console.log(`시작!`);
-        const tickId = setInterval(tick, 1000);
+        timerId = setInterval(() => {
+          time = (time * 10 - 1) / 10; // 부동소수점문제..
+          $timer.textContent = time;
+          if (time === 0) {
+            clearInterval(timerId);
+            clearInterval(tickId);
+            setTimeout(() => {
+              alert(`게임오버! 점수는 ${score}점`);
+            }, 50);
+          }
+        }, 100);
+        tickId = setInterval(tick, 1000);
         tick();
       });
 
@@ -168,6 +186,10 @@
 
       $$cells.forEach(($cell, idx) => {
         $cell.querySelector(`.gopher`).addEventListener("click", (e) => {
+          if (!e.target.classList.contains(`dead`)) {
+            score++;
+            $score.textContent = score;
+          }
           e.target.classList.add(`dead`);
           e.target.classList.add(`hidden`);
           clearTimeout(holes[idx]); // 기존 내려가는 타이머 제거
@@ -184,6 +206,15 @@
             holes[idx] = 0;
             e.target.classList.remove(`boom`);
           }, 1000);
+          life--;
+          $life.textContent = life;
+          if (life === 0) {
+            clearInterval(timerId);
+            clearInterval(tickId);
+            setTimeout(() => {
+              alert(`게임오버! 점수는 ${score}점`);
+            }, 50);
+          }
         });
       });
     </script>

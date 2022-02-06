@@ -141,17 +141,51 @@
         tick();
       });
 
+      let gopherPercent = 0.3;
+      let bombPercent = 0.5;
+
       function tick() {
         holes.forEach((hole, idx) => {
           if (hole) return;
-          const $gopher = $$cells[idx].querySelector(`.gopher`);
-          holes[idx] = setTimeout(() => {
-            $gopher.classList.add(`hidden`);
-            holes[idx] = 0;
-          }, 1000);
-          $gopher.classList.remove(`hidden`);
+          const randomValue = Math.random();
+          if (randomValue < gopherPercent) {
+            const $gopher = $$cells[idx].querySelector(`.gopher`);
+            holes[idx] = setTimeout(() => {
+              $gopher.classList.add(`hidden`);
+              holes[idx] = 0;
+            }, 1000);
+            $gopher.classList.remove(`hidden`);
+          } else if (randomValue < bombPercent) {
+            const $bomb = $$cells[idx].querySelector(`.bomb`);
+            holes[idx] = setTimeout(() => {
+              $bomb.classList.add(`hidden`);
+              holes[idx] = 0;
+            }, 1000);
+            $bomb.classList.remove(`hidden`);
+          }
         });
       }
+
+      $$cells.forEach(($cell, idx) => {
+        $cell.querySelector(`.gopher`).addEventListener("click", (e) => {
+          e.target.classList.add(`dead`);
+          e.target.classList.add(`hidden`);
+          clearTimeout(holes[idx]); // 기존 내려가는 타이머 제거
+          setTimeout(() => {
+            holes[idx] = 0;
+            e.target.classList.remove(`dead`);
+          }, 1000);
+        });
+        $cell.querySelector(`.bomb`).addEventListener("click", (e) => {
+          e.target.classList.add(`boom`);
+          e.target.classList.add(`hidden`);
+          clearTimeout(holes[idx]);
+          setTimeout(() => {
+            holes[idx] = 0;
+            e.target.classList.remove(`boom`);
+          }, 1000);
+        });
+      });
     </script>
   </body>
 </html>

@@ -58,7 +58,7 @@
         hp: 100,
         xp: 0,
         att: 10,
-        attack: (monster) => {
+        attack: function (monster) {
           monster.hp -= this.att;
           this.hp -= monster.att;
         },
